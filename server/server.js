@@ -1,64 +1,37 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/database')
 const app = express();
-const mongoose = require("mongoose");
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
-const flash = require("express-flash");
-const connectDB = require("./config/database");
+const mainRoutes = require('./routes/main')
+const cookieParser = require('cookie-parser');
+const logger = require('morgan')
+const path = require("path");
+require('dotenv').config({path: './config/.env'})
 
-//Use .env file in config folder
-require("dotenv").config({ path: "./config/.env" });
-const examplesRoutes = require("./routes/examples");
+connectDB()   
 
 // Enable CORS for client origin only
-const cors = require('cors')
 const corsOptions = {
-   origin : ['http://localhost:3000', 'https://localhost:3000'],
+  credentials:true,
+  origin : ['http://localhost:3000', 'https://localhost:3000'],
 }
 app.use(cors(corsOptions))
-
-//Body Parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(logger('dev'))
 
-// Setup Sessions - stored in MongoDB
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "keyboard cat",
-    resave: false,
-    saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  })
-);
+app.use('/', mainRoutes)
 
-// Render React as View
+// Serve static files
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
-//Use flash messages for errors, info, ect...
-app.use(flash());
-
-//Setup Routes For Which The Server Is Listening
-app.use("/examples", examplesRoutes);
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ message: "Not found" });
+// Catch-all route for serving index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
-// error handler
-app.use((err, req, res, next) => {
-  const { status = 500, message = "Server error", stack } = err;
-  console.log(stack);
-  res.status(status).json({ message });
-});
-
-//Connect To Database
-connectDB().then(() => {
-  //Server Running
-  app.listen(process.env.PORT, () => {
-    console.log(
-      `Server is running on ${process.env.PORT}, you better catch it!`
-    );
-  });
-});
+app.listen(process.env.PORT, ()=>{
+  console.log(`Server is running on port ${process.env.PORT}, you better catch it!`)
+})  

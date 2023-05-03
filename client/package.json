@@ -1,6 +1,5 @@
 
 {
-  "comments": "proxy: http://localhost:2121/ for windows, proxy: http://127.0.0.1:2121/ for  mac",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
