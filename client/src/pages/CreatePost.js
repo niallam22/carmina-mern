@@ -18,7 +18,7 @@ export default function CreatePost() {
     data.set('content', content);
     data.set('file', files[0]);
     ev.preventDefault();
-    const response = await fetch('/server/post', {
+    const response = await fetch('/post', {
       method: 'POST',
       body: data,
       credentials: 'include',

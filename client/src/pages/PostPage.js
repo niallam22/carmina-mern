@@ -11,7 +11,7 @@ export default function PostPage() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   useEffect(() => {
 
-    fetch(`/server/post/${id}`)
+    fetch(`/post/${id}`)
       .then(response => {
         response.json().then(postInfo => {
           const capitalisedAuthor = postInfo.author.username[0].toUpperCase() + postInfo.author.username.slice(1)

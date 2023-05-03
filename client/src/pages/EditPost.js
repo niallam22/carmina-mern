@@ -41,7 +41,7 @@ function rejectDelete(){
     const data = new FormData();
     data.set('id', id);
     
-    const response = await fetch(`/server/post/${id}`, {
+    const response = await fetch(`/post/${id}`, {
       method: 'DELETE',
       body: data,
       credentials: 'include',
@@ -62,7 +62,7 @@ function rejectDelete(){
     if (files?.[0]) {
       data.set('file', files?.[0]);
     }
-    const response = await fetch('/server/post', {
+    const response = await fetch('/post', {
       method: 'PUT',
       body: data,
       credentials: 'include',
