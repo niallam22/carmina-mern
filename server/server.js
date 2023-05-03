@@ -26,6 +26,7 @@ app.use('/', mainRoutes)
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
+app.use(express.static('public'));
 
 // Catch-all route for serving index.html
 app.get('*', (req, res) => {
