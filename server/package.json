@@ -2,8 +2,5 @@
   "scripts": {
     "start": "node server.js",
     "dev": "concurrently \"node dev-mongo\" \"nodemon server.js\""
-  },
-  "dependencies": {
-    "http-proxy-middleware": "^2.0.6"
   }
 }
