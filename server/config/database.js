@@ -5,7 +5,10 @@ const connectDB = async () => {
 
   for (retryCount = 0; retryCount < 3; retryCount++) {
     try {
-      const conn = await mongoose.connect(process.env.DB_STRING)
+      const conn = await mongoose.connect(process.env.DB_STRING, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
       console.log(`MongoDB Connected: ${conn.connection.host}`)
       return; // connection successful, return from the function
     } catch (err) {
