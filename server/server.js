@@ -26,11 +26,11 @@ app.use('/', mainRoutes)
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 // Catch-all route for serving index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname,"..", 'client/build', 'index.html'));
 });
 
 app.listen(process.env.PORT, ()=>{
